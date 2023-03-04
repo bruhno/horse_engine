@@ -1,9 +1,11 @@
 # horse_engine
-HEADERS 
+
+ONCONNECT
 ----------------------
+after connected send client role to engine
 <code>
-PLAYER [game-role : player]
-ADMIN  [game-role : admin]
+  player
+  admin
 </code>
 
 
