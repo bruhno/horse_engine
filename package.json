@@ -8,6 +8,7 @@
     "serve": "nodemon index.js"
   },
   "author": "gennady brukhno",
+  "email": "bruhno.ga@gmail.com",
   "license": "ISC",
   "dependencies": {
     "jest": "^29.4.3",

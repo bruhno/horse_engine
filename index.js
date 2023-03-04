@@ -1,10 +1,4 @@
 
-// const {Game,Player}=require("./src/game")
-
-
-
-// const game=new Game();
-
 players=function(){
     const arr=[]
     for (var socket of playerServer.sockets){

@@ -1,4 +1,4 @@
-JUMP_INTERVAL = 5000;
+JUMP_INTERVAL = 1000;
 LOCK_INTERVAL = 10000;
 
 const wsconnect = (socket, request) => {
