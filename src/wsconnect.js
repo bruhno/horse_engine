@@ -1,3 +1,6 @@
+JUMP_INTERVAL = 5000;
+LOCK_INTERVAL = 10000;
+
 const wsconnect = (socket, request) => {
     const role = request.headers["game-role"];
     const num = counter++;
@@ -57,12 +60,13 @@ const wsconnect = (socket, request) => {
 
 const { Game } = require("./game")
 
-function players() {
+function players(message) {
     let players = [];
 
     clients.forEach(c => {
         if (c.role === "player") {
             players.push(c)
+            if (message) c.send(JSON.stringify(message));
         }
     });
 
@@ -96,9 +100,13 @@ function startGame() {
     if (numbers.length > 1) {
         game = new Game(numbers, gameMessenger());
         intervalID = setInterval(() => {
+            if (game.stopped) {
+                clearInterval(intervalID);
+                return;
+            }
             game.jump();
             console.log("horse jump")
-        }, 10000);
+        }, JUMP_INTERVAL);
     } else {
         console.error(`no players enough: ${numbers.length}`)
     }
@@ -110,7 +118,11 @@ function stopGame() {
 }
 
 
-function buttonClick(num){
+function buttonClick(num) {
+    if (!game) {
+        console.error('game is not started yet')
+        return
+    };
     game.press(num);
 }
 
@@ -124,6 +136,22 @@ function gameMessenger() {
             if (!clients[num]) return;
             clients[num].send("horse-show");
             admins({ event: "horse", name: num })
+        },
+        lock(){
+            players("button-lock")
+            admins({event:"button-lock"})
+            console.log("locked")
+            setTimeout(()=>{
+                players("button-unlock")
+                admins({event:"button-unlock"})
+                console.log("unlocked")
+            },LOCK_INTERVAL);
+
+        },
+        win(num){
+            if (!clients[num]) return;
+            clients[num].send("win");
+            admins({ event: "win", name: num })
         }
     }
 }

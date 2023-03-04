@@ -50,7 +50,7 @@ test("tree players", () => {
 })
 
 
-test.only("press button and win", () => {
+test("press button and win", () => {
     players = get_players();
     var game = new Game(players,messenger)
 
@@ -59,6 +59,7 @@ test.only("press button and win", () => {
     game.press(players[2]);
 
     expect(players[2].winner).toBeTruthy();
+    expect(game.stopped).toBeTruthy();
 
     // expect(() => game.jump()).toThrow("stopped");
 })
@@ -72,7 +73,7 @@ test("press button and miss", () => {
     expect(messenger.locked).toBeFalsy()
 
 
-    game.press('b');
+    game.press(players[1]);
     
     expect(messenger.locked).toBeTruthy()
 

@@ -9,7 +9,7 @@ class Game {
 
     current = 0;
 
-
+    
 
     getNext = i => {
         const n = this.players.length;
