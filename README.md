@@ -1,37 +1,46 @@
 # horse_engine
 HEADERS 
 ----------------------
+<code>
 PLAYER [game-role : player]
 ADMIN  [game-role : admin]
-
+</code>
 
 
 FROM ENGINE TO PLAYER
 ----------------------
-name:<value> 
+<code>
+name:value  
 horse-hide
 horse-show
 button-lock
-button-unlock
-win
-
+button-unlock 
+win 
+</code>
+  
 
 FROM ENGINE TO ADMIN
 ----------------------
-{ event: "players", names:[<value1>,<value2>...] }
-{ event: "player-add", name:<value> }
-{ event: "player-remove", name:<value> }
-{ event: "horse", name: name:<value>  }
+<code>
+{ event: "players", names:[value1,value2...] } 
+{ event: "player-add", name:value }
+{ event: "player-remove", name:value } 
+{ event: "horse", name: name:value  }
 { event:"button-lock" }
 { event:"button-unlock" }
-{ event:"win", name:<value>  }
+{ event:"win", name:value  }
+</code>
 
 
 FROM PLAYER TO ENGINE
 ----------------------
+<code>
 button-click
+</code>
 
 FROM ADMIN TO ENGINE
 ----------------------
+<code>
 start
-stop
+stop 
+</code>
