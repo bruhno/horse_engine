@@ -1,9 +1,9 @@
 
-const {Server} =require("socket.io")
+// const {ws} =require("ws")
 const {Game,Player}=require("./src/game")
 
-const playerServer = new Server(3000);
-const controlServer = new Server(3001);
+// const playerServer = new Server(3000);
+// const controlServer = new Server(3001);
 
 const game=new Game();
 
@@ -17,22 +17,28 @@ players=function(){
 }
 
 
-playerServer.on("connection", socket => {
+const ws = require("ws");
+const {wsconnect} = require("./src/wsconnect");
 
-    console.log("client connected")
+const server = new ws.Server({port:3000});
+server.on("connection", wsconnect)
 
-    socket.on("disconnect", reason=>{
-        console.log("client disconnected:"+reason)
-    })
-})
+// playerServer.on("connection", socket => {
 
-controlServer.on("connection", socket=>{
-    socket.on("game-start", ()=>{
-        game.start(players())
-    })
+//     console.log("client connected")
 
-    socket.on("game-start", ()=>{
-        game.stop()
-    })
-})
+//     socket.on("disconnect", reason=>{
+//         console.log("client disconnected:"+reason)
+//     })
+// })
+
+// controlServer.on("connection", socket=>{
+//     socket.on("game-start", ()=>{
+//         game.start(players())
+//     })
+
+//     socket.on("game-start", ()=>{
+//         game.stop()
+//     })
+// })
 
