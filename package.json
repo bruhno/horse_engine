@@ -1,0 +1,17 @@
+{
+  "name": "horse",
+  "version": "1.0.0",
+  "description": "horse game server",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest",
+    "serve": "nodemon index.js"
+  },
+  "author": "gennady brukhno",
+  "license": "ISC",
+  "dependencies": {
+    "jest": "^29.4.3",
+    "nodemon": "^2.0.20",
+    "socket.io": "^4.6.1"
+  }
+}
