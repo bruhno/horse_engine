@@ -26,7 +26,10 @@ class Game {
     }
 
     jump() {
-        if (this.stopped) throw "the game is stopped";
+        if (this.stopped) {
+            console.error(`the game is stopped`)
+            return
+        }
 
 
         var previous = this.current;
@@ -40,7 +43,14 @@ class Game {
 
     }
 
-    press(index) {
+    press(player) {
+        let index = this.players.indexOf(player);
+        
+        if (index<0) {
+            console.error(`unknown player: ${player}`)
+            return
+        }
+                
         if (index === this.nextIndex()) {
             this.messenger.win(this.players[index])
             this.stopped=true;

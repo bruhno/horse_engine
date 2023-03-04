@@ -17,7 +17,7 @@ const wsconnect = (socket, request) => {
 
     if (role === "admin") {
         let names = [];
-        socketPlayers().forEach(p => names.push(p.num));
+        players().forEach(p => names.push(p.num));
         socket.send(JSON.stringify({ event: "players", names }))
     }
 
@@ -35,6 +35,9 @@ const wsconnect = (socket, request) => {
                 break;
             case "stop":
                 stopGame();
+                break;
+            case "button-click":
+                buttonClick(num);
                 break;
 
         }
@@ -54,7 +57,7 @@ const wsconnect = (socket, request) => {
 
 const { Game } = require("./game")
 
-function socketPlayers() {
+function players() {
     let players = [];
 
     clients.forEach(c => {
@@ -86,29 +89,41 @@ function admins(message) {
 
 
 function startGame() {
-    let players = socketPlayers();
+    let numbers = []
 
-    if (players.length > 1) {
-        game = new Game(players, gameMessenger());
+    players().forEach(p => numbers.push(p.num));
+
+    if (numbers.length > 1) {
+        game = new Game(numbers, gameMessenger());
         intervalID = setInterval(() => {
             game.jump();
-            console.jog("horse jump")            
-        }, 1000);
+            console.log("horse jump")
+        }, 10000);
     } else {
-        console.error("no players yet")
+        console.error(`no players enough: ${numbers.length}`)
     }
 }
 
 
-function stopGame(){
+function stopGame() {
     clearInterval(intervalID);
 }
 
 
-function gameMessenger(){
-    return{
-        hideHorse(num){
+function buttonClick(num){
+    game.press(num);
+}
+
+function gameMessenger() {
+    return {
+        hideHorse(num) {
+            if (!clients[num]) return;
             clients[num].send("horse-hide");
+        },
+        showHorse(num) {
+            if (!clients[num]) return;
+            clients[num].send("horse-show");
+            admins({ event: "horse", name: num })
         }
     }
 }
