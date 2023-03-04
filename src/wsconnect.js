@@ -1,30 +1,15 @@
 JUMP_INTERVAL = 1000;
 LOCK_INTERVAL = 10000;
 
-const wsconnect = (socket, request) => {
-    const role = request.headers["game-role"];
+const wsconnect = (socket) => {
+
     const num = counter++;
-    socket.role = role;
     socket.num = num;
-
-
-
     clients[num] = socket;
 
 
 
-    if (role === "player") {
-        socket.send(`name:${num}`)
-        admins({ event: "player-add", name: num })
-    }
-
-    if (role === "admin") {
-        let names = [];
-        players().forEach(p => names.push(p.num));
-        socket.send(JSON.stringify({ event: "players", names }))
-    }
-
-    console.log(`${role} ${num} connected`);
+    console.log(`$client ${num} connected`);
 
 
     socket.on("message", data => {
@@ -33,6 +18,17 @@ const wsconnect = (socket, request) => {
         console.log(`${num}:${message}`);
 
         switch (message) {
+            case "player":
+                socket.role = "player";
+                socket.send(`name:${num}`)
+                admins({ event: "player-add", name: num })
+                break;
+            case "admin":
+                socket.role = "admin";
+                let names = [];
+                players().forEach(p => names.push(p.num));
+                socket.send(JSON.stringify({ event: "players", names }))
+                break;
             case "start":
                 startGame();
                 break;
@@ -49,6 +45,8 @@ const wsconnect = (socket, request) => {
     })
 
     socket.on("close", code => {
+        let role =clients[num].role;
+
         delete clients[num];
         if (role === "player") {
             admins({ event: "player-remove", name: num })
@@ -137,18 +135,18 @@ function gameMessenger() {
             clients[num].send("horse-show");
             admins({ event: "horse", name: num })
         },
-        lock(){
+        lock() {
             players("button-lock")
-            admins({event:"button-lock"})
+            admins({ event: "button-lock" })
             console.log("locked")
-            setTimeout(()=>{
+            setTimeout(() => {
                 players("button-unlock")
-                admins({event:"button-unlock"})
+                admins({ event: "button-unlock" })
                 console.log("unlocked")
-            },LOCK_INTERVAL);
+            }, LOCK_INTERVAL);
 
         },
-        win(num){
+        win(num) {
             if (!clients[num]) return;
             clients[num].send("win");
             admins({ event: "win", name: num })
