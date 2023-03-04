@@ -1,11 +1,9 @@
 
-// const {ws} =require("ws")
-const {Game,Player}=require("./src/game")
+// const {Game,Player}=require("./src/game")
 
-// const playerServer = new Server(3000);
-// const controlServer = new Server(3001);
 
-const game=new Game();
+
+// const game=new Game();
 
 players=function(){
     const arr=[]
@@ -18,27 +16,11 @@ players=function(){
 
 
 const ws = require("ws");
-const {wsconnect} = require("./src/wsconnect");
+const disp = require("./src/wsconnect");
+
+
 
 const server = new ws.Server({port:3000});
-server.on("connection", wsconnect)
+server.on("connection", disp.wsconnect)
 
-// playerServer.on("connection", socket => {
-
-//     console.log("client connected")
-
-//     socket.on("disconnect", reason=>{
-//         console.log("client disconnected:"+reason)
-//     })
-// })
-
-// controlServer.on("connection", socket=>{
-//     socket.on("game-start", ()=>{
-//         game.start(players())
-//     })
-
-//     socket.on("game-start", ()=>{
-//         game.stop()
-//     })
-// })
 

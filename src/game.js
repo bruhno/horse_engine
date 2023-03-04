@@ -1,9 +1,10 @@
-//const {Player}=require("./player")
-
 class Game {
 
-    constructor(players) {
+    
+
+    constructor(players, messenger) {
         this.players = players;
+        this.messenger=messenger;
     }
 
     current = 0;
@@ -11,13 +12,13 @@ class Game {
 
 
     getNext = i => {
-        const n = players.length;
+        const n = this.players.length;
         if (i >= n) throw `wrong index arg:${i}`
         return ++i == n ? 0 : i;
     }
 
     nextIndex = () => {
-        const n = players.length;
+        const n = this.players.length;
         var i = this.current;
 
         if (i >= n) throw `wrong index arg:${i}`
@@ -32,18 +33,19 @@ class Game {
         this.current = this.nextIndex();
 
 
-        players[previous].hideHorse();
-        players[this.current].showHorse();
+        this.messenger.hideHorse(this.players[previous]);
+        this.messenger.showHorse(this.players[this.current]);
+
 
 
     }
 
     press(index) {
         if (index === this.nextIndex()) {
-            players[index].win();
+            this.messenger.win(this.players[index])
             this.stopped=true;
         }else{
-            players.forEach(p=>p.lock())
+            this.messenger.lock();
         }
     }
 }

@@ -6,40 +6,19 @@ function get_players() {
         id: p,
         horse: false,
 
-        hideHorse() {
-            this.horse = false
-        },
-        showHorse() {
-            this.horse = true
-        },
-        win(){
-            this.winner=true;
-        },
-        lock(){
-            this.locked=true;
-        }
+
     }))
     return players;
 }
 
 
-test("tree players", () => {
-    // players = [];
 
-    // [1, 2, 3].forEach(p => players.push({
-    //     id: p,
-    //     horse: false,
-    //     hideHorse() {
-    //         this.horse = false
-    //     },
-    //     showHorse: function () {
-    //         this.horse = true
-    //     }
-    // }))
+test("tree players", () => {
+
 
     players = get_players();
 
-    var game = new Game(players)
+    var game = new Game(players,messenger)
 
 
     expect(players[0].horse).toBeFalsy();
@@ -73,7 +52,7 @@ test("tree players", () => {
 
 test("press button and win", () => {
     players = get_players();
-    var game = new Game(players)
+    var game = new Game(players,messenger)
 
     game.jump();
 
@@ -81,22 +60,51 @@ test("press button and win", () => {
 
     expect(players[2].winner).toBeTruthy();
 
-    expect(()=> game.jump()).toThrow("stopped");
+    expect(() => game.jump()).toThrow("stopped");
 })
 
 test("press button and miss", () => {
     players = get_players();
-    var game = new Game(players)
+    var game = new Game(players,messenger)
 
     game.jump();
 
-    players.forEach(p=>expect(p.locked).toBeFalsy())
+    // players.forEach(p => expect(p.locked).toBeFalsy())
+    
+
+    expect(messenger.locked).toBeFalsy()
 
 
     game.press(1);
 
-    players.forEach(p=>expect(p.locked).toBeTruthy())
+    // players.forEach(p => expect(p.locked).toBeTruthy())
+    expect(messenger.locked).toBeTruthy()
 
 })
 
+
+
+afterEach(()=>{
+  messenger.locked=false;
+})
+
+///////////////////////////////
+messenger = {
+
+    locked:false,
+
+    hideHorse(player) {
+        player.horse = false
+    },
+    showHorse(player) {
+        player.horse = true
+    },
+    win(player) {
+        player.winner = true;
+    },
+    lock() {
+        this.locked=true;
+        //player.locked = true;
+    }
+}
 
