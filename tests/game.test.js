@@ -56,7 +56,7 @@ test("press button and win", () => {
 
     game.jump();
 
-    game.press(players[2]);
+    game.press(players[2], players[1]);
 
     expect(players[2].winner).toBeTruthy();
     expect(game.stopped).toBeTruthy();
@@ -73,9 +73,26 @@ test("press button and miss", () => {
     expect(messenger.locked).toBeFalsy()
 
 
-    game.press(players[1]);
+    game.press(players[1], players[1]);
     
     expect(messenger.locked).toBeTruthy()
+
+})
+
+test("press button with latency", () => {
+    players = get_players();
+    var game = new Game(players,messenger)
+
+    game.jump();
+    
+    //latency and next jump
+    game.jump();
+
+
+    //press button with latency
+    game.press(players[2], players[1]);
+
+    expect(players[2].winner).toBeTruthy();
 
 })
 

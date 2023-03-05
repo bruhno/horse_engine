@@ -13,7 +13,9 @@ const wsconnect = (socket) => {
 
 
     socket.on("message", data => {
-        const message = data.toString();
+        const dataarr = data.toString().split(":");
+        const message = dataarr[0];
+        const arg=dataarr[1];
 
         console.log(`${num}:${message}`);
 
@@ -36,7 +38,7 @@ const wsconnect = (socket) => {
                 stopGame();
                 break;
             case "button-click":
-                buttonClick(num);
+                buttonClick(num,arg);
                 break;
 
         }
@@ -116,12 +118,12 @@ function stopGame() {
 }
 
 
-function buttonClick(num) {
+function buttonClick(clientnum,horsenum) {
     if (!game) {
         console.error('game is not started yet')
         return
     };
-    game.press(num);
+    game.press(clientnum,horsenum);
 }
 
 function gameMessenger() {
@@ -133,6 +135,7 @@ function gameMessenger() {
         showHorse(num) {
             if (!clients[num]) return;
             clients[num].send("horse-show");
+            clients(`horse:${num}`);
             admins({ event: "horse", name: num })
         },
         lock() {

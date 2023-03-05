@@ -1,15 +1,15 @@
 class Game {
 
-    
+
 
     constructor(players, messenger) {
         this.players = players;
-        this.messenger=messenger;
+        this.messenger = messenger;
     }
 
     current = 0;
 
-    
+
 
     getNext = i => {
         const n = this.players.length;
@@ -17,9 +17,9 @@ class Game {
         return ++i == n ? 0 : i;
     }
 
-    nextIndex = () => {
+    nextIndex = (index) => {
         const n = this.players.length;
-        var i = this.current;
+        var i = index ?? this.current;
 
         if (i >= n) throw `wrong index arg:${i}`
         return ++i == n ? 0 : i;
@@ -43,18 +43,23 @@ class Game {
 
     }
 
-    press(player) {
-        let index = this.players.indexOf(player);
-        
-        if (index<0) {
+    press(player, horse) {
+        let indexPlayer = this.players.indexOf(player);
+        let indexHorse = this.players.indexOf(horse);
+
+        if (indexPlayer < 0) {
             console.error(`unknown player: ${player}`)
             return
         }
-                
-        if (index === this.nextIndex()) {
-            this.messenger.win(this.players[index])
-            this.stopped=true;
-        }else{
+        if (indexHorse < 0) {
+            console.error(`unknown player: ${player}`)
+            return
+        }
+
+        if (indexPlayer === this.nextIndex(indexHorse)) {
+            this.messenger.win(player)
+            this.stopped = true;
+        } else {
             this.messenger.lock();
         }
     }
