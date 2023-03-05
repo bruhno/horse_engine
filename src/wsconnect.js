@@ -64,7 +64,7 @@ function players(message) {
     clients.forEach(c => {
         if (c.role === "player") {
             players.push(c)
-            if (message) c.send(JSON.stringify(message));
+            if (message) c.send(message);
         }
     });
 
