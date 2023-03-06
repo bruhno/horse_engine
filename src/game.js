@@ -49,12 +49,12 @@ class Game {
 
         if (indexPlayer < 0) {
             console.error(`unknown player: ${player}`)
-            console.log('players:'+this.players)
+            console.log('players:' + this.players)
             return
         }
         if (indexHorse < 0) {
             console.error(`unknown horse: "${horse}"`)
-            console.log('players:'+this.players)
+            console.log('players:' + this.players)
             return
         }
 
@@ -67,4 +67,20 @@ class Game {
     }
 }
 
+function RandomArray(array) {
+
+    let arr=Array.from(array);
+
+    for (let i = arr.length - 1; i > 0; i--) {
+        let r=Math.floor(Math.random()*i);
+
+        let x = arr[i];
+        arr[i]=arr[r];
+        arr[r]=x;
+    }
+
+    return arr;
+}
+
 exports.Game = Game;
+exports.RandomArray = RandomArray;

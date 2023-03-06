@@ -27,11 +27,11 @@ const wsconnect = (socket) => {
                 break;
             case "admin":
                 socket.role = "admin";
-                let names = [];
-                players().forEach(p => names.push(p.num));
-                socket.send(JSON.stringify({ event: "players", names }))
+                playersForAdmin();                
                 break;
             case "start":
+                clients=RandomArray(clients);
+                playersForAdmin(); 
                 startGame();
                 break;
             case "stop":
@@ -58,7 +58,7 @@ const wsconnect = (socket) => {
 }
 
 
-const { Game } = require("./game")
+const { Game, RandomArray } = require("./game")
 
 function players(message) {
     let players = [];
@@ -89,12 +89,23 @@ function admins(message) {
 }
 
 
-
+function playersForAdmin(){
+    let names = [];
+    players().forEach(p => names.push(p.num));
+    socket.send(JSON.stringify({ event: "players", names }))
+}
 
 function startGame() {
+
+    
+
+    
+
     let numbers = []
 
     players().forEach(p => numbers.push(p.num));
+
+    // numbers = randomize(numbers);
 
     if (numbers.length > 1) {
         game = new Game(numbers, gameMessenger());
