@@ -91,7 +91,7 @@ function admins(message) {
 
 function playersForAdmin(socket) {
     let names = []; 
-    players().forEach(p => names.push({ name: p.num/*, ip: 'p.handshake.address'*/ }));
+    players().forEach(p => names.push(p.num));
 
     msg = { event: "players", names }
 
