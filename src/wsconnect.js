@@ -30,7 +30,7 @@ const wsconnect = (socket) => {
                 playersForAdmin(socket);                
                 break;
             case "start":
-                clients = RandomArray(clients);                
+               // clients = RandomArray(clients);                
                 //playersForAdmin();
                 startGame();
                 break;
