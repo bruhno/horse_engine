@@ -135,7 +135,7 @@ function gameMessenger() {
         showHorse(num) {
             if (!clients[num]) return;
             clients[num].send("horse-show");
-            clients(`horse:${num}`);
+            players(`horse:${num}`);
             admins({ event: "horse", name: num })
         },
         lock() {
