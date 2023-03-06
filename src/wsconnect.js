@@ -36,7 +36,7 @@ const wsconnect = (socket) => {
                 startGame();
                 break;
             case "stop":
-                stopGame();
+                stopInterval();
                 break;
             case "button-click":
                 buttonClick(num, arg);
@@ -124,19 +124,7 @@ function startGame() {
 
     gameIntervalId = setInterval(()=>mixCycle(), MIX_INTERVAL);
 
-    // numbers = RandomArray(numbers);
 
-    
-    //     game = new Game(numbers, gameMessenger());
-    //     jumpIntervalID = setInterval(() => {
-    //         if (game.stopped) {
-    //             clearInterval(intervalID);
-    //             return;
-    //         }
-    //         game.jump();
-    //         //console.log("horse jump")
-    //     }, JUMP_INTERVAL);
-    
 }
 
 let gameNumbers
@@ -151,7 +139,7 @@ function mixCycle(){
 
     jumpIntervalID = setInterval(() => {
         if (game.stopped) {
-            clearInterval(jumpIntervalID);
+            stopInterval();
             return;
         }
         game.jump();            
@@ -159,7 +147,7 @@ function mixCycle(){
 }
 
 
-function stopGame() {
+function stopInterval() {
     if (jumpIntervalID){
      clearInterval(jumpIntervalID)
     }
