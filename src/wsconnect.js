@@ -157,7 +157,12 @@ function mixCycle(numbers){
 
 
 function stopGame() {
-    clearInterval(gameIntervalID);
+    if (jumpIntervalID){
+     clearInterval(jumpIntervalID)
+    }
+    if (gameIntervalID) {
+         clearInterval(gameIntervalID);
+    }
 }
 
 
@@ -204,7 +209,7 @@ function gameMessenger() {
 }
 
 let jumpIntervalID;
-let gameIntervalId
+let gameIntervalID
 let counter = 1;
 let game = null;
 let clients = [];
