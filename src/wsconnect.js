@@ -104,7 +104,7 @@ function startGame() {
                 return;
             }
             game.jump();
-            console.log("horse jump")
+            //console.log("horse jump")
         }, JUMP_INTERVAL);
     } else {
         console.error(`no players enough: ${numbers.length}`)
@@ -123,8 +123,9 @@ function buttonClick(clientnum,horsenum) {
         return
     };
     
+    
 
-    game.press(clientnum,horsenum);
+    game.press(clientnum, Number(horsenum));
 }
 
 function gameMessenger() {
