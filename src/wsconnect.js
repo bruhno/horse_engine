@@ -23,7 +23,7 @@ const wsconnect = (socket) => {
             case "player":
                 socket.role = "player";
                 socket.send(`name:${num}`)
-                admins({ event: "player-add", name: num, ip: socket.handshake.ip })
+                admins({ event: "player-add", name: num, ip: socket.handshake.address })
                 break;
             case "admin":
                 socket.role = "admin";
@@ -91,7 +91,7 @@ function admins(message) {
 
 function playersForAdmin(socket) {
     let names = [];
-    players().forEach(p => names.push({ name: p.num, ip: p.handshake.ip }));
+    players().forEach(p => names.push({ name: p.num, ip: p.handshake.address }));
 
     msg = { event: "players", names }
 
