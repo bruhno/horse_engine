@@ -148,7 +148,7 @@ function mixCycle(numbers){
 
     jumpIntervalID = setInterval(() => {
         if (game.stopped) {
-            clearInterval(intervalID);
+            clearInterval(jumpIntervalID);
             return;
         }
         game.jump();            
