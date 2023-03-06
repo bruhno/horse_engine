@@ -85,7 +85,6 @@ function admins(message) {
     });
 
 
-
     return players;
 }
 
@@ -123,6 +122,8 @@ function buttonClick(clientnum,horsenum) {
         console.error('game is not started yet')
         return
     };
+    
+
     game.press(clientnum,horsenum);
 }
 

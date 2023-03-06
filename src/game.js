@@ -49,10 +49,12 @@ class Game {
 
         if (indexPlayer < 0) {
             console.error(`unknown player: ${player}`)
+            console.log('players:'+this.players)
             return
         }
         if (indexHorse < 0) {
-            console.error(`unknown player: ${player}`)
+            console.error(`unknown horse: ${player}`)
+            console.log('players:'+this.players)
             return
         }
 
