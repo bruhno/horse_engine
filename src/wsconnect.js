@@ -31,7 +31,7 @@ const wsconnect = (socket) => {
                 break;
             case "start":
                 clients = RandomArray(clients);                
-                playersForAdmin();
+                //playersForAdmin();
                 startGame();
                 break;
             case "stop":
@@ -112,7 +112,7 @@ function startGame() {
 
     players().forEach(p => numbers.push(p.num));
 
-    // numbers = randomize(numbers);
+     numbers = RandomArray(numbers);
 
     if (numbers.length > 1) {
         game = new Game(numbers, gameMessenger());
