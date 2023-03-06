@@ -69,7 +69,11 @@ class Game {
 
 function RandomArray(array) {
 
-    let arr=Array.from(array);
+    let arr=[];
+    array.forEach(p=>arr.push(p));
+
+    // let arr = Array.from(array);
+
 
     for (let i = arr.length - 1; i > 0; i--) {
         let r=Math.floor(Math.random()*i);

@@ -14,3 +14,23 @@ test('array contains all elements', ()=>{
     expect(arr[0]+arr[1]+arr[2]+arr[3]).not.toBe('abcd');
     expect(arr0[0]+arr0[1]+arr0[2]+arr0[3]).toBe('abcd');
 });
+
+
+// test('additional property', ()=>{
+//    var a = 'a'
+//    var b = 'b'
+
+//    a.role='admin';
+//    b.role='admin';
+
+//     var arr0 = [a,b];
+
+
+
+//  //   var arr = RandomArray(arr0);
+
+
+//     expect(arr0[0].role).toBe('admin')
+//     expect(arr0[1].role).toBe('admin')
+    
+// });
