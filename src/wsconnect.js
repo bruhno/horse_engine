@@ -15,7 +15,7 @@ const wsconnect = (socket) => {
     socket.on("message", data => {
         const dataarr = data.toString().split(":");
         const message = dataarr[0];
-        const arg=dataarr[1];
+        const arg = dataarr[1];
 
         console.log(`${num}:${message}`);
 
@@ -23,22 +23,22 @@ const wsconnect = (socket) => {
             case "player":
                 socket.role = "player";
                 socket.send(`name:${num}`)
-                admins({ event: "player-add", name: num })
+                admins({ event: "player-add", name: num, ip: socket.handshake.ip })
                 break;
             case "admin":
                 socket.role = "admin";
-                playersForAdmin();                
+                playersForAdmin(socket);
                 break;
             case "start":
-                clients=RandomArray(clients);
-                playersForAdmin(); 
+                clients = RandomArray(clients);
+                playersForAdmin();
                 startGame();
                 break;
             case "stop":
                 stopGame();
                 break;
             case "button-click":
-                buttonClick(num,arg);
+                buttonClick(num, arg);
                 break;
 
         }
@@ -47,7 +47,7 @@ const wsconnect = (socket) => {
     })
 
     socket.on("close", code => {
-        let role =clients[num].role;
+        let role = clients[num].role;
 
         delete clients[num];
         if (role === "player") {
@@ -89,17 +89,24 @@ function admins(message) {
 }
 
 
-function playersForAdmin(){
+function playersForAdmin(socket) {
     let names = [];
-    players().forEach(p => names.push(p.num));
-    socket.send(JSON.stringify({ event: "players", names }))
+    players().forEach(p => names.push({ name: p.num, ip: p.handshake.ip }));
+
+    msg = { event: "players", names }
+
+    if (socket) {
+        socket.send(JSON.stringify(msg))
+    } else {
+        admins(msg);
+    }
 }
 
 function startGame() {
 
-    
 
-    
+
+
 
     let numbers = []
 
@@ -128,13 +135,13 @@ function stopGame() {
 }
 
 
-function buttonClick(clientnum,horsenum) {
+function buttonClick(clientnum, horsenum) {
     if (!game) {
         console.error('game is not started yet')
         return
     };
-    
-    
+
+
 
     game.press(clientnum, Number(horsenum));
 }
