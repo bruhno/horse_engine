@@ -143,6 +143,7 @@ function mixCycle(numbers){
 
     numbers = RandomArray(numbers);
 
+    console.log("mix: "+numbers)
     game = new Game(numbers, gameMessenger());
 
     jumpIntervalID = setInterval(() => {
