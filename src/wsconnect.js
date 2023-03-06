@@ -1,5 +1,6 @@
 JUMP_INTERVAL = 500;
 LOCK_INTERVAL = 10000;
+MIX_INTERVAL = 2*60*1000;
 
 const wsconnect = (socket) => {
 
@@ -112,26 +113,50 @@ function startGame() {
 
     players().forEach(p => numbers.push(p.num));
 
-     numbers = RandomArray(numbers);
-
-    if (numbers.length > 1) {
-        game = new Game(numbers, gameMessenger());
-        intervalID = setInterval(() => {
-            if (game.stopped) {
-                clearInterval(intervalID);
-                return;
-            }
-            game.jump();
-            //console.log("horse jump")
-        }, JUMP_INTERVAL);
-    } else {
+    if (numbers.length < 2){
         console.error(`no players enough: ${numbers.length}`)
+        return;
     }
+
+    
+    mixCycle(numbers);
+
+    gameIntervalId = setInterval(()=>mixCycle(numbers), MIX_INTERVAL);
+
+    // numbers = RandomArray(numbers);
+
+    
+    //     game = new Game(numbers, gameMessenger());
+    //     jumpIntervalID = setInterval(() => {
+    //         if (game.stopped) {
+    //             clearInterval(intervalID);
+    //             return;
+    //         }
+    //         game.jump();
+    //         //console.log("horse jump")
+    //     }, JUMP_INTERVAL);
+    
+}
+
+function mixCycle(numbers){    
+    clearInterval(jumpIntervalID);
+
+    numbers = RandomArray(numbers);
+
+    game = new Game(numbers, gameMessenger());
+
+    jumpIntervalID = setInterval(() => {
+        if (game.stopped) {
+            clearInterval(intervalID);
+            return;
+        }
+        game.jump();            
+    }, JUMP_INTERVAL);
 }
 
 
 function stopGame() {
-    clearInterval(intervalID);
+    clearInterval(gameIntervalID);
 }
 
 
@@ -177,7 +202,8 @@ function gameMessenger() {
     }
 }
 
-let intervalID;
+let jumpIntervalID;
+let gameIntervalId
 let counter = 1;
 let game = null;
 let clients = [];
