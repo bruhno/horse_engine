@@ -118,10 +118,11 @@ function startGame() {
         return;
     }
 
+    gameNumbers = numbers;
     
-    mixCycle(numbers);
+    mixCycle();
 
-    gameIntervalId = setInterval(()=>mixCycle(numbers), MIX_INTERVAL);
+    gameIntervalId = setInterval(()=>mixCycle(), MIX_INTERVAL);
 
     // numbers = RandomArray(numbers);
 
@@ -138,13 +139,15 @@ function startGame() {
     
 }
 
-function mixCycle(numbers){    
+let gameNumbers
+
+function mixCycle(){    
     clearInterval(jumpIntervalID);
 
-    numbers = RandomArray(numbers);
+    gameNumbers = RandomArray(gameNumbers);
 
-    console.log("mix: "+numbers)
-    game = new Game(numbers, gameMessenger());
+    console.log("mix: "+gameNumbers)
+    game = new Game(gameNumbers, gameMessenger());
 
     jumpIntervalID = setInterval(() => {
         if (game.stopped) {
