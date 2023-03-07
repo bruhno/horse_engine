@@ -122,7 +122,7 @@ function startGame() {
     
     mixCycle();
 
-    gameIntervalId = setInterval(()=>mixCycle(), MIX_INTERVAL);
+    gameIntervalID = setInterval(()=>mixCycle(), MIX_INTERVAL);
 
 
 }
